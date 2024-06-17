@@ -5,10 +5,7 @@ const jwt = require('jsonwebtoken');
 const mysql = require('mysql2');
 const { Client } = require('pg');
 const mongoose = require('mongoose');
-const multer = require('multer');
-const stripe = require('stripe')('YOUR_STRIPE_SECRET_KEY');
-const paypal = require('paypal-rest-sdk');
-const axios = require('axios');
+const bcrypt = require('bcryptjs');
 const pdfkit = require('pdfkit');
 const config = require('./config/config');
 
@@ -38,9 +35,6 @@ mongoose.connect(config.mongodb.uri, { useNewUrlParser: true, useUnifiedTopology
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.log(err));
 
-// PayPal setup
-paypal.configure(config.paypal);
-
 // Middleware to verify JWT token
 const verifyToken = (req, res, next) => {
   const token = req.headers['authorization'];
@@ -55,6 +49,9 @@ const verifyToken = (req, res, next) => {
 
 // Import routes
 const authRoutes = require('./routes/auth');
+const userRoutes = require('./routes/user');
+const roleRoutes = require('./routes/role');
+const staffRoutes = require('./routes/staff');
 const hotelRoutes = require('./routes/hotel');
 const restaurantRoutes = require('./routes/restaurant');
 const retailRoutes = require('./routes/retail');
@@ -63,7 +60,6 @@ const salesRoutes = require('./routes/sales');
 const productRoutes = require('./routes/product');
 const inventoryRoutes = require('./routes/inventory');
 const reportRoutes = require('./routes/report');
-const userRoutes = require('./routes/user');
 const configRoutes = require('./routes/config');
 const purchaseRoutes = require('./routes/purchase');
 const outletsRoutes = require('./routes/outlets');
@@ -79,6 +75,9 @@ const salesTransactionRoutes = require('./routes/salesTransaction');
 
 // Use routes
 app.use('/auth', authRoutes);
+app.use('/user', verifyToken, userRoutes);
+app.use('/role', verifyToken, roleRoutes);
+app.use('/staff', verifyToken, staffRoutes);
 app.use('/hotel', verifyToken, hotelRoutes);
 app.use('/restaurant', verifyToken, restaurantRoutes);
 app.use('/retail', verifyToken, retailRoutes);
@@ -87,7 +86,6 @@ app.use('/sales', verifyToken, salesRoutes);
 app.use('/product', verifyToken, productRoutes);
 app.use('/inventory', verifyToken, inventoryRoutes);
 app.use('/report', verifyToken, reportRoutes);
-app.use('/user', verifyToken, userRoutes);
 app.use('/config', verifyToken, configRoutes);
 app.use('/purchase', verifyToken, purchaseRoutes);
 app.use('/outlets', verifyToken, outletsRoutes);

@@ -15,10 +15,5 @@ module.exports = {
   },
   mongodb: {
     uri: 'mongodb://localhost:27017/aenzbi_db'
-  },
-  paypal: {
-    'mode': 'sandbox', // sandbox or live
-    'client_id': 'YOUR_PAYPAL_CLIENT_ID',
-    'client_secret': 'YOUR_PAYPAL_CLIENT_SECRET'
   }
 };
