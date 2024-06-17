@@ -72,6 +72,7 @@ const posRoutes = require('./routes/pos');
 const kitchenOrderRoutes = require('./routes/kitchenOrder');
 const kitchenOrderTransactionRoutes = require('./routes/kitchenOrderTransaction');
 const salesTransactionRoutes = require('./routes/salesTransaction');
+const supplierRoutes = require('./routes/supplier');
 
 // Use routes
 app.use('/auth', authRoutes);
@@ -98,6 +99,7 @@ app.use('/pos', verifyToken, posRoutes);
 app.use('/kitchen-order', verifyToken, kitchenOrderRoutes);
 app.use('/kitchen-order-transaction', verifyToken, kitchenOrderTransactionRoutes);
 app.use('/sales-transaction', verifyToken, salesTransactionRoutes);
+app.use('/supplier', verifyToken, supplierRoutes);
 
 // Real-time fiscal transaction handling on external endpoint
 app.post('/fiscal/transaction', async (req, res) => {
