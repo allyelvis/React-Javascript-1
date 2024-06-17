@@ -73,6 +73,9 @@ const kitchenOrderRoutes = require('./routes/kitchenOrder');
 const kitchenOrderTransactionRoutes = require('./routes/kitchenOrderTransaction');
 const salesTransactionRoutes = require('./routes/salesTransaction');
 const supplierRoutes = require('./routes/supplier');
+const systemIntegratorRoutes = require('./routes/systemIntegrator');
+const propertyConfigRoutes = require('./routes/propertyConfig');
+const paymentRoutes = require('./routes/payment');
 
 // Use routes
 app.use('/auth', authRoutes);
@@ -100,6 +103,9 @@ app.use('/kitchen-order', verifyToken, kitchenOrderRoutes);
 app.use('/kitchen-order-transaction', verifyToken, kitchenOrderTransactionRoutes);
 app.use('/sales-transaction', verifyToken, salesTransactionRoutes);
 app.use('/supplier', verifyToken, supplierRoutes);
+app.use('/system-integrator', verifyToken, systemIntegratorRoutes);
+app.use('/property-config', verifyToken, propertyConfigRoutes);
+app.use('/payment', verifyToken, paymentRoutes);
 
 // Real-time fiscal transaction handling on external endpoint
 app.post('/fiscal/transaction', async (req, res) => {
