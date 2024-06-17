@@ -8,6 +8,8 @@ const mongoose = require('mongoose');
 const multer = require('multer');
 const stripe = require('stripe')('YOUR_STRIPE_SECRET_KEY');
 const paypal = require('paypal-rest-sdk');
+const axios = require('axios');
+const pdfkit = require('pdfkit');
 const config = require('./config/config');
 
 // Initialize Express app
@@ -63,6 +65,17 @@ const inventoryRoutes = require('./routes/inventory');
 const reportRoutes = require('./routes/report');
 const userRoutes = require('./routes/user');
 const configRoutes = require('./routes/config');
+const purchaseRoutes = require('./routes/purchase');
+const outletsRoutes = require('./routes/outlets');
+const kitchenRoutes = require('./routes/kitchen');
+const waiterRoutes = require('./routes/waiter');
+const customerRoutes = require('./routes/customer');
+const tableRoutes = require('./routes/table');
+const designerRoutes = require('./routes/designer');
+const posRoutes = require('./routes/pos');
+const kitchenOrderRoutes = require('./routes/kitchenOrder');
+const kitchenOrderTransactionRoutes = require('./routes/kitchenOrderTransaction');
+const salesTransactionRoutes = require('./routes/salesTransaction');
 
 // Use routes
 app.use('/auth', authRoutes);
@@ -76,6 +89,30 @@ app.use('/inventory', verifyToken, inventoryRoutes);
 app.use('/report', verifyToken, reportRoutes);
 app.use('/user', verifyToken, userRoutes);
 app.use('/config', verifyToken, configRoutes);
+app.use('/purchase', verifyToken, purchaseRoutes);
+app.use('/outlets', verifyToken, outletsRoutes);
+app.use('/kitchen', verifyToken, kitchenRoutes);
+app.use('/waiter', verifyToken, waiterRoutes);
+app.use('/customer', verifyToken, customerRoutes);
+app.use('/table', verifyToken, tableRoutes);
+app.use('/designer', verifyToken, designerRoutes);
+app.use('/pos', verifyToken, posRoutes);
+app.use('/kitchen-order', verifyToken, kitchenOrderRoutes);
+app.use('/kitchen-order-transaction', verifyToken, kitchenOrderTransactionRoutes);
+app.use('/sales-transaction', verifyToken, salesTransactionRoutes);
+
+// Real-time fiscal transaction handling on external endpoint
+app.post('/fiscal/transaction', async (req, res) => {
+  try {
+    const { transactionDetails } = req.body;
+    // Example: Forward transaction details to an external endpoint
+    const externalResponse = await axios.post('http://externalapi.com/fiscal/transaction', transactionDetails);
+    res.send(externalResponse.data);
+  } catch (error) {
+    console.error('Error handling fiscal transaction:', error.message);
+    res.status(500).send('Error handling fiscal transaction');
+  }
+});
 
 // Start the server
 const PORT = process.env.PORT || 3000;
