@@ -1,75 +1,25 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import Navbar from './components/Navbar';
+import Home from './pages/Home';
+import Dashboard from './pages/Dashboard';
+import HotelManagement from './pages/HotelManagement';
+import RestaurantManagement from './pages/RestaurantManagement';
+import RetailManagement from './pages/RetailManagement';
 
-const RestaurantManagement = () => {
-  const [orders, setOrders] = useState([]);
-
-  const addOrder = (order) => {
-    setOrders([...orders, order]);
-  };
-
-  return (
+const App = () => (
+  <Router>
     <div>
-      <h1>Restaurant Management System</h1>
-      <OrderForm addOrder={addOrder} />
-      <OrderList orders={orders} />
+      <Navbar />
+      <Switch>
+        <Route path="/" exact component={Home} />
+        <Route path="/dashboard" component={Dashboard} />
+        <Route path="/hotel" component={HotelManagement} />
+        <Route path="/restaurant" component={RestaurantManagement} />
+        <Route path="/retail" component={RetailManagement} />
+      </Switch>
     </div>
-  );
-};
+  </Router>
+);
 
-const OrderForm = ({ addOrder }) => {
-  const [customerName, setCustomerName] = useState('');
-  const [menuItem, setMenuItem] = useState('');
-  const [quantity, setQuantity] = useState(1);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!customerName || !menuItem || quantity <= 0) return;
-    const order = { customerName, menuItem, quantity };
-    addOrder(order);
-    setCustomerName('');
-    setMenuItem('');
-    setQuantity(1);
-  };
-
-  return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="text"
-        placeholder="Customer Name"
-        value={customerName}
-        onChange={(e) => setCustomerName(e.target.value)}
-      />
-      <input
-        type="text"
-        placeholder="Menu Item"
-        value={menuItem}
-        onChange={(e) => setMenuItem(e.target.value)}
-      />
-      <input
-        type="number"
-        min="1"
-        placeholder="Quantity"
-        value={quantity}
-        onChange={(e) => setQuantity(parseInt(e.target.value))}
-      />
-      <button type="submit">Add Order</button>
-    </form>
-  );
-};
-
-const OrderList = ({ orders }) => {
-  return (
-    <div>
-      <h2>Orders:</h2>
-      <ul>
-        {orders.map((order, index) => (
-          <li key={index}>
-            {order.customerName} ordered {order.quantity} of {order.menuItem}
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-};
-
-export default RestaurantManagement;
+export default App;
