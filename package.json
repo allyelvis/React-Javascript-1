@@ -14,11 +14,11 @@
   "devDependencies": {
     "@types/react": "^18.2.37",
     "@types/react-dom": "^18.2.15",
-    "@vitejs/plugin-react": "^4.2.0",
+    "@vitejs/plugin-react": "^4.5.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "typescript": "^5.2.2",
-    "vite": "^5.4.11"
+    "vite": "^6.3.5"
   },
   "main": "index.js",
   "dependencies": {
@@ -32,7 +32,7 @@
     "csstype": "^3.0.11",
     "debug": "^4.3.4",
     "electron-to-chromium": "^1.4.588",
-    "esbuild": "^0.19.5",
+    "esbuild": "^0.25.5",
     "escalade": "^3.1.1",
     "escape-string-regexp": "^1.0.5",
     "gensync": "^1.0.0-beta.2",
